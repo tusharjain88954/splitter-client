@@ -27,7 +27,7 @@
             type="button"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal2"
-            value="Search"
+            value="Search & Add"
           />
         </div>
         <div class="col col-lg-6">
@@ -71,7 +71,7 @@
                 <input
                   type="text"
                   #fullName="ngModel"
-                  [(ngModel)]="groupService.name"
+                  [(ngModel)]="groupService.name1"
                   name="name"
                   placeholder="type group name"
                   required
@@ -92,13 +92,13 @@
               </div>
             </form>
             <!-- Success message -->
-            <div class="success" *ngIf="showSucessMessage">
-              {{ showSucessMessage }}
+            <div class="success" *ngIf="showSucessMessage1">
+              {{ showSucessMessage1 }}
             </div>
 
             <!-- Error message -->
-            <div class="alert" *ngIf="serverErrorMessages">
-              {{ serverErrorMessages }}
+            <div class="alert" *ngIf="serverErrorMessages1">
+              {{ serverErrorMessages1 }}
             </div>
           </div>
         </div>
@@ -135,7 +135,7 @@
                 <input
                   type="text"
                   #fullName="ngModel"
-                  [(ngModel)]="groupService.name"
+                  [(ngModel)]="groupService.name2"
                   name="name"
                   placeholder="type group name to add"
                   required
@@ -156,13 +156,13 @@
               </div>
             </form>
             <!-- Success message -->
-            <div class="success" *ngIf="showSucessMessage">
-              {{ showSucessMessage }}
+            <div class="success" *ngIf="showSucessMessage2">
+              {{ showSucessMessage2 }}
             </div>
 
             <!-- Error message -->
-            <div class="alert" *ngIf="serverErrorMessages">
-              {{ serverErrorMessages }}
+            <div class="alert" *ngIf="serverErrorMessages2">
+              {{ serverErrorMessages2 }}
             </div>
           </div>
         </div>

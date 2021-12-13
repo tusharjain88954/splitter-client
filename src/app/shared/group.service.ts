@@ -10,7 +10,8 @@ import { environment } from '../../environments/environment';
 export class GroupService {
   constructor(private http: HttpClient) { }
 
-  name: string | undefined;
+  name1: string | undefined;
+  name2: string | undefined;
   createGroup(name: any) {
     return this.http.post(environment.BaseUrl + '/group', name);
   }

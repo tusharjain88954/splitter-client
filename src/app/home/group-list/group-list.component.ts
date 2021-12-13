@@ -13,8 +13,10 @@ import { NgForm } from '@angular/forms';
 export class GroupListComponent implements OnInit {
   colours: Array<any> = ['primary', 'success'];
   groupList = [];
-  serverErrorMessages: string | undefined;
-  showSucessMessage: string | undefined;
+  serverErrorMessages1: string | undefined;
+  showSucessMessage1: string | undefined;
+  serverErrorMessages2: string | undefined;
+  showSucessMessage2: string | undefined;
   faUsers = faUsers;
   faUser = faUser;
   constructor(public groupService: GroupService, public userService: UserService, public userGroupService: UserGroupService) { }
@@ -32,12 +34,12 @@ export class GroupListComponent implements OnInit {
   onSubmitCreateForm(form: NgForm) {
     this.groupService.createGroup(form.value).subscribe({
       next: (res: any) => {
-        this.showSucessMessage = res['message'];
-        this.resetForm(form);
+        this.showSucessMessage1 = res['message'];
+        this.resetFormCreate(form);
         location.reload();
       },
       error: (err) => {
-        this.serverErrorMessages = err.error['error'];
+        this.serverErrorMessages1 = err.error['error'];
       },
     });
 
@@ -45,20 +47,25 @@ export class GroupListComponent implements OnInit {
   onSubmitSearchForm(form: NgForm) {
     this.userGroupService.creatUserGroup(form.value).subscribe({
       next: (res: any) => {
-        this.showSucessMessage = res['message'];
-        this.resetForm(form);
+        this.showSucessMessage2 = res['message'];
+        this.resetFormSearch(form);
         location.reload();
       },
       error: (err) => {
-        this.serverErrorMessages = err.error['error'];
+        this.serverErrorMessages2 = err.error['error'];
       },
     });
 
   }
   // reset the form when after submit is clicked
-  resetForm(form: NgForm) {
-    this.groupService.name = undefined;
+  resetFormCreate(form: NgForm) {
+    this.groupService.name1 = undefined;
     form.resetForm();
-    this.serverErrorMessages = '';
+    this.serverErrorMessages1 = '';
+  }
+  resetFormSearch(form: NgForm) {
+    this.groupService.name2 = undefined;
+    form.resetForm();
+    this.serverErrorMessages2 = '';
   }
 }

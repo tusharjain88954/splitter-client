@@ -48,7 +48,7 @@
                 width="150"
               />
               <div class="mt-3">
-                <h4>Hey! {{ userDetails.fullName }}</h4>
+                <h4>Hey! {{ userDetails.fullName.split(" ")[0] }}</h4>
                 <p class="text-secondary mb-1">{{ userDetails.email }}</p>
                 <p class="text-secondary mb-1">Splitter User😍</p>
                 <input type="button" (click)="onLogout()" value="Logout" />

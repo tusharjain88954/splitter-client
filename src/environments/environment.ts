@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  BaseUrl: 'https://bills-split-backend.herokuapp.com',
+  // BaseUrl: 'https://bills-split-backend.herokuapp.com',
+  BaseUrl: 'http://localhost:3000',
 };
 
 /*
