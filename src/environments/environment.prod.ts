@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  BaseUrl: 'http://localhost:3000',
+  BaseUrl: 'https://bills-split-backend.herokuapp.com',
 };
