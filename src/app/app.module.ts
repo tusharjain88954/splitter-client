@@ -17,8 +17,9 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { UserService } from './shared/user.service';
 import { HomeComponent } from './home/home.component';
 import { GroupListComponent } from './home/group-list/group-list.component';
-import { SearchGroupComponent } from './home/search-group/search-group.component';
 import { GroupComponent } from './home/group/group.component';
+import { ProfileComponent } from './user/profile/profile.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -29,8 +30,8 @@ import { GroupComponent } from './home/group/group.component';
     UserProfileComponent,
     HomeComponent,
     GroupListComponent,
-    SearchGroupComponent,
     GroupComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,8 +58,15 @@ import { GroupComponent } from './home/group/group.component';
         redirectTo: '/login',
         pathMatch: 'full',
       },
+      {
+        path: 'home',
+        component: HomeComponent,
+        children: [{ path: '', component: GroupListComponent }],
+        canActivate: [AuthGuard],
+      },
     ]),
     HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [
     {
@@ -71,4 +79,4 @@ import { GroupComponent } from './home/group/group.component';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

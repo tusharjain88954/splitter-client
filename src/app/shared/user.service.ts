@@ -13,10 +13,14 @@ export class UserService {
     email: '',
     password: '',
   };
-
+  model = {
+    fullName: null,
+    password: null,
+    confirmPassword: null,
+  };
   noAuthHeader = { headers: new HttpHeaders({ NoAuth: 'True' }) };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //HttpMethods
   postUser(user: User) {
@@ -32,6 +36,17 @@ export class UserService {
 
   getUserProfile() {
     return this.http.get(environment.BaseUrl + '/userProfile');
+  }
+
+  editUserProfile(body: any) {
+    return this.http.patch(environment.BaseUrl + '/userProfile', body);
+  }
+  getGroups() {
+    return this.http.get(environment.BaseUrl + '/user');
+  }
+
+  updateGroup(body: any) {
+    return this.http.patch(environment.BaseUrl + '/user', body);
   }
 
   //Helper Methods
