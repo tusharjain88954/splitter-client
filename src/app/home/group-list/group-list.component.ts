@@ -12,19 +12,19 @@ import { NgForm } from '@angular/forms';
 })
 export class GroupListComponent implements OnInit {
   colours: Array<any> = ['primary', 'success'];
-  groupList = [];
+  groupList: any = [];
   serverErrorMessages1: string | undefined;
   showSucessMessage1: string | undefined;
   serverErrorMessages2: string | undefined;
   showSucessMessage2: string | undefined;
-  faUsers = faUsers;
-  faUser = faUser;
+  faUsers = faUsers; // fav icon
+  faUser = faUser; // fav icon
   constructor(public groupService: GroupService, public userService: UserService, public userGroupService: UserGroupService) { }
   ngOnInit() {
     this.userService.getGroups().subscribe({
       next: (res: any) => {
         this.groupList = res;
-        // console.log(res);
+        this.groupService.setGroupIds(this.groupList);
       },
       error: (err) => {
         console.log(err);

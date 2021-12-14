@@ -17,9 +17,9 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { UserService } from './shared/user.service';
 import { HomeComponent } from './home/home.component';
 import { GroupListComponent } from './home/group-list/group-list.component';
-import { GroupComponent } from './home/group/group.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { GroupComponent } from './home/group/group.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +30,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     UserProfileComponent,
     HomeComponent,
     GroupListComponent,
-    GroupComponent,
     ProfileComponent,
+    GroupComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +61,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       {
         path: 'home',
         component: HomeComponent,
-        children: [{ path: '', component: GroupListComponent }],
+        children: [{ path: '', component: GroupListComponent },
+        {
+          path: ':id', //:id is dynamic here
+          component: GroupComponent,
+        },
+
+        ],
         canActivate: [AuthGuard],
       },
     ]),

@@ -6,7 +6,7 @@
     <div class="card-body">
       <div class="list-group" *ngFor="let groupName of groupList">
         <a
-          href="#"
+          [routerLink]="['/home', groupName.group[0]._id]"
           class="
             list-group-item list-group-item-action list-group-item
             groupName
@@ -27,7 +27,7 @@
             type="button"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal2"
-            value="Search & Add"
+            value="Add to group"
           />
         </div>
         <div class="col col-lg-6">
@@ -115,7 +115,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModal2Label">
-                Search and add into a Group
+                add into a Group
               </h5>
               <button
                 type="button"
@@ -137,7 +137,7 @@
                   #fullName="ngModel"
                   [(ngModel)]="groupService.name2"
                   name="name"
-                  placeholder="type group name to add"
+                  placeholder="type full group name"
                   required
                   [ngClass]="{
                     'invalid-textbox':
@@ -152,7 +152,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <input type="submit" value="Search & Add" />
+                <input type="submit" value="Add to group" />
               </div>
             </form>
             <!-- Success message -->
