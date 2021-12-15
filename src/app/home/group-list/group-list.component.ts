@@ -19,34 +19,41 @@ export class GroupListComponent implements OnInit {
   showSucessMessage2: string | undefined;
   faUsers = faUsers; // fav icon
   faUser = faUser; // fav icon
+  showSpinner = false;
   constructor(public groupService: GroupService, public userService: UserService, public userGroupService: UserGroupService) { }
   ngOnInit() {
     this.getGroupList();
   }
   onSubmitCreateForm(form: NgForm) {
+    this.showSpinner = true;
     this.groupService.createGroup(form.value).subscribe({
       next: (res: any) => {
         console.log(res);
         this.getGroupList();
         this.showSucessMessage1 = res['message'];
         this.resetFormCreate(form);
+        this.showSpinner = false;
       },
       error: (err) => {
         this.serverErrorMessages1 = err.error['error'];
+        this.showSpinner = false;
       },
     });
 
   }
   onSubmitSearchForm(form: NgForm) {
+    this.showSpinner = true;
     this.userGroupService.creatUserGroup(form.value).subscribe({
       next: (res: any) => {
         console.log(res);
         this.getGroupList();
         this.showSucessMessage2 = res['message'];
         this.resetFormSearch(form);
+        this.showSpinner = false;
       },
       error: (err) => {
         this.serverErrorMessages2 = err.error['error'];
+        this.showSpinner = false;
       },
     });
 
@@ -64,13 +71,16 @@ export class GroupListComponent implements OnInit {
   }
 
   getGroupList() {
+    this.showSpinner = true;
     this.userService.getGroups().subscribe({
       next: (res: any) => {
         this.groupList = res;
         this.groupService.setGroupIds(this.groupList);
+        this.showSpinner = false;
       },
       error: (err) => {
         console.log(err);
+        this.showSpinner = false;
       },
     });
   }

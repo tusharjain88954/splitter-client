@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class UserProfileComponent implements OnInit {
   userDetails: any;
+  showSpinner = false;
   serverErrorMessages: string | undefined;
   showSucessMessage: string | undefined;
   constructor(public userService: UserService, private router: Router) { }
@@ -24,20 +25,24 @@ export class UserProfileComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   onSubmit(form: NgForm) {
+    this.showSpinner = true;
     this.userService.editUserProfile(form.value).subscribe({
       next: (res: any) => {
         this.getUser();
         this.showSucessMessage = res['message'];
         this.resetForm(form);
+        this.showSpinner = false;
       },
       error: (err) => {
         this.serverErrorMessages = err.error['error'];
+        this.showSpinner = false;
       },
     });
   }
 
   // reset the form when after submit is clicked
   resetForm(form: NgForm) {
+
     this.userService.model = {
       fullName: null,
       password: null,
@@ -48,12 +53,15 @@ export class UserProfileComponent implements OnInit {
   }
 
   getUser() {
+    this.showSpinner = true;
     this.userService.getUserProfile().subscribe({
       next: (res: any) => {
         this.userDetails = res['user'];
+        this.showSpinner = false;
       },
       error: (err) => {
         console.log(err);
+        this.showSpinner = false;
       },
     });
   }
