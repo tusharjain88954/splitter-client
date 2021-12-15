@@ -20,6 +20,7 @@ import { GroupListComponent } from './home/group-list/group-list.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GroupComponent } from './home/group/group.component';
+import { PagenotfoundComponent } from './shared/pagenotfound/pagenotfound.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { GroupComponent } from './home/group/group.component';
     HomeComponent,
     GroupListComponent,
     ProfileComponent,
-    GroupComponent
+    GroupComponent,
+    PagenotfoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,11 +63,19 @@ import { GroupComponent } from './home/group/group.component';
       {
         path: 'home',
         component: HomeComponent,
-        children: [{ path: '', component: GroupListComponent },
-        {
-          path: ':id', //:id is dynamic here
-          component: GroupComponent,
-        },
+        children: [
+          {
+            path: '',
+            component: PagenotfoundComponent
+          },
+          {
+            path: 'group',
+            component: GroupListComponent
+          },
+          {
+            path: 'group/:id', //:id is dynamic here
+            component: GroupComponent,
+          },
 
         ],
         canActivate: [AuthGuard],

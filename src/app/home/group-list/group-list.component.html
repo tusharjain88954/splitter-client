@@ -6,7 +6,7 @@
     <div class="card-body">
       <div class="list-group" *ngFor="let groupName of groupList">
         <a
-          [routerLink]="['/home', groupName.group[0]._id]"
+          [routerLink]="['/home/group/', groupName.group[0]._id]"
           class="
             list-group-item list-group-item-action list-group-item
             groupName

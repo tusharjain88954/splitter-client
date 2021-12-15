@@ -16,14 +16,7 @@ export class UserProfileComponent implements OnInit {
   constructor(public userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    this.userService.getUserProfile().subscribe({
-      next: (res: any) => {
-        this.userDetails = res['user'];
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.getUser();
   }
 
   onLogout() {
@@ -33,10 +26,9 @@ export class UserProfileComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.userService.editUserProfile(form.value).subscribe({
       next: (res: any) => {
+        this.getUser();
         this.showSucessMessage = res['message'];
         this.resetForm(form);
-        location.reload();
-
       },
       error: (err) => {
         this.serverErrorMessages = err.error['error'];
@@ -55,5 +47,15 @@ export class UserProfileComponent implements OnInit {
     this.serverErrorMessages = '';
   }
 
+  getUser() {
+    this.userService.getUserProfile().subscribe({
+      next: (res: any) => {
+        this.userDetails = res['user'];
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 
 }

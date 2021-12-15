@@ -21,22 +21,15 @@ export class GroupListComponent implements OnInit {
   faUser = faUser; // fav icon
   constructor(public groupService: GroupService, public userService: UserService, public userGroupService: UserGroupService) { }
   ngOnInit() {
-    this.userService.getGroups().subscribe({
-      next: (res: any) => {
-        this.groupList = res;
-        this.groupService.setGroupIds(this.groupList);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.getGroupList();
   }
   onSubmitCreateForm(form: NgForm) {
     this.groupService.createGroup(form.value).subscribe({
       next: (res: any) => {
+        console.log(res);
+        this.getGroupList();
         this.showSucessMessage1 = res['message'];
         this.resetFormCreate(form);
-        location.reload();
       },
       error: (err) => {
         this.serverErrorMessages1 = err.error['error'];
@@ -47,9 +40,10 @@ export class GroupListComponent implements OnInit {
   onSubmitSearchForm(form: NgForm) {
     this.userGroupService.creatUserGroup(form.value).subscribe({
       next: (res: any) => {
+        console.log(res);
+        this.getGroupList();
         this.showSucessMessage2 = res['message'];
         this.resetFormSearch(form);
-        location.reload();
       },
       error: (err) => {
         this.serverErrorMessages2 = err.error['error'];
@@ -67,5 +61,17 @@ export class GroupListComponent implements OnInit {
     this.groupService.name2 = undefined;
     form.resetForm();
     this.serverErrorMessages2 = '';
+  }
+
+  getGroupList() {
+    this.userService.getGroups().subscribe({
+      next: (res: any) => {
+        this.groupList = res;
+        this.groupService.setGroupIds(this.groupList);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

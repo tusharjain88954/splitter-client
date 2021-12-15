@@ -16,14 +16,17 @@ export class GroupComponent implements OnInit {
     if (!this.groupService.isAdded(groupId)) {
       this.router.navigateByUrl('/home');
     }
-    this.groupService.getGroup(groupId).subscribe({
-      next: (res: any) => {
-        this.groupDetails = res;
-      },
-      error: (err) => {
-        this.router.navigateByUrl('/home');
-      },
-    });
+    else {
+      this.groupService.getGroup(groupId).subscribe({
+        next: (res: any) => {
+          this.groupDetails = res;
+        },
+        error: (err) => {
+          this.router.navigateByUrl('/home');
+        },
+      });
+    }
+
   }
 
 }
