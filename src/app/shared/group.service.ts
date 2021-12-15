@@ -29,11 +29,15 @@ export class GroupService {
       return o.group[0]._id;
     });
     console.log(groupIds);
-    localStorage.setItem('groupIds', groupIds);
+    localStorage.setItem('groupIds', JSON.stringify(groupIds));
   }
 
   getGroupIds() {
-    return localStorage.getItem('groupIds');
+    const obj = localStorage.getItem('groupIds');
+    if (obj)
+      return JSON.parse(obj)
+    else
+      return [];
   }
 
   deleteGroupIds() {
@@ -42,8 +46,9 @@ export class GroupService {
 
   isAdded(id: any): Boolean {
     const groupIds: any = this.getGroupIds();
-    if (groupIds.includes(id))
+    if (groupIds.includes(id)) {
       return true;
+    }
     return false
   }
 }
