@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/user.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { GroupService } from '../shared/group.service';
+
 
 
 @Component({
@@ -14,7 +16,7 @@ export class UserProfileComponent implements OnInit {
   showSpinner = false;
   serverErrorMessages: string | undefined;
   showSucessMessage: string | undefined;
-  constructor(public userService: UserService, private router: Router) { }
+  constructor(public userService: UserService, private groupService: GroupService, private router: Router) { }
 
   ngOnInit() {
     this.getUser();
@@ -23,6 +25,7 @@ export class UserProfileComponent implements OnInit {
   onLogout() {
     this.userService.deleteToken();
     this.router.navigate(['/login']);
+    this.groupService.deleteGroupIds();
   }
   onSubmit(form: NgForm) {
     this.showSpinner = true;

@@ -8,12 +8,13 @@ import {
 import { Observable } from 'rxjs';
 import { UserService } from '../shared/user.service';
 import { Router } from '@angular/router';
+import { GroupService } from '../shared/group.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private groupService: GroupService, private router: Router) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,6 +27,7 @@ export class AuthGuard implements CanActivate {
     if (!this.userService.isLoggedIn()) {
       this.router.navigateByUrl('/login');
       this.userService.deleteToken();
+      this.groupService.deleteGroupIds();
       return false;
     }
     return true;

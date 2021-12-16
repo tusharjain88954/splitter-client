@@ -42,6 +42,7 @@ export class GroupService {
 
   deleteGroupIds() {
     localStorage.removeItem('groupIds');
+
   }
 
   isAdded(id: any): Boolean {
