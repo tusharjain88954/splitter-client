@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupService } from '../../shared/group.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { faPlusSquare, faReceipt, faUser } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
@@ -11,6 +13,9 @@ export class GroupComponent implements OnInit {
   constructor(public groupService: GroupService, private router: Router, private route: ActivatedRoute) { }
   groupDetails: any | undefined;
   showSpinner = false;
+  faPlusSquare = faPlusSquare;
+  faReceipt = faReceipt;
+  faUser = faUser
   ngOnInit(): void {
     this.showSpinner = true;
     const groupId = this.route.snapshot.paramMap.get('id')

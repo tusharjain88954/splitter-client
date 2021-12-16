@@ -3,5 +3,218 @@
     <span class="sr-only" id="loading"></span>
   </div>
 </div>
-<p>group works!</p>
-<p>{{ groupDetails.name }}</p>
+<div class="container">
+  <div class="row my-2">
+    <div class="col-sm-12 col-lg-4">
+      <div class="card" style="box-shadow: 6px 6px 5px rgba(17, 17, 17, 0.1)">
+        <div class="card-body">
+          <div class="d-flex flex-column align-items-center text-center">
+            <img
+              src="http://blog.ebta.nu/wp-content/uploads/2012/05/group.png"
+              alt="group logo"
+              class="rounded-circle"
+              width="150"
+            />
+            <div class="mt-3">
+              <h4>{{ groupDetails.name }}</h4>
+              <p class="text-secondary mb-1">
+                {{ groupDetails.total_persons }} members
+              </p>
+              <p><fa-icon [icon]="faUser"></fa-icon> Aditya</p>
+              <p><fa-icon [icon]="faUser"></fa-icon> Tushar</p>
+              <input type="button" value="Delete Group" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <div class="row my-2">
+        <div class="col col-lg-6">
+          <button type="button" class="btn btn-success btn-lg">
+            <fa-icon [icon]="faPlusSquare"></fa-icon> Add Expanse
+          </button>
+        </div>
+        <div class="col col-lg-6">
+          <button type="button" class="btn btn-primary btn-lg">
+            <fa-icon [icon]="faUser"></fa-icon> Settle Up
+          </button>
+        </div>
+      </div>
+      <div class="row my-1">
+        <div class="col-sm-12 col-lg-4">
+          <div class="card mb-3" style="width: 12rem">
+            <div class="card-header" style="font-size: 10px">
+              <b>Total Balance</b>
+            </div>
+            <div class="card-body">
+              <p class="card-text" style="color: rgb(11, 138, 49)">
+                <b style="font-size: 25px">₹150</b>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-4">
+          <div class="card mb-3" style="width: 12rem">
+            <div class="card-header" style="font-size: 10px">
+              <b>You Owe</b>
+            </div>
+            <div class="card-body">
+              <p class="card-text" style="color: rgb(185, 17, 17)">
+                <b style="font-size: 25px">₹100</b>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-4">
+          <div class="card mb-3" style="width: 12rem">
+            <div class="card-header" style="font-size: 10px">
+              <b>You are Owned</b>
+            </div>
+            <div class="card-body">
+              <p class="card-text" style="color: rgb(11, 138, 49)">
+                <b style="font-size: 25px">₹250</b>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="tableFixHead">
+          <table
+            class="table table-hover"
+            style="box-shadow: 6px 6px 5px rgba(7, 6, 6, 0.1)"
+          >
+            <thead>
+              <tr>
+                <th style="color: black">You owe</th>
+                <th style="color: black">You are owned</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="bg-light" style="color: black">
+                  <b>DINESH</b>
+                  <i class="text-secondary">
+                    you owe <b style="color: rgb(185, 17, 17)">₹52.61</b></i
+                  >
+                </td>
+                <td class="bg-light" style="color: black">
+                  RAMAN
+                  <i class="text-secondary">
+                    owes you <b style="color: rgb(11, 138, 49)">₹12.61</b></i
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="bg-light" style="color: black">
+                  <b>DINESH</b>
+                  <i class="text-secondary">
+                    you owe <b style="color: rgb(185, 17, 17)">₹52.61</b></i
+                  >
+                </td>
+                <td class="bg-light" style="color: black">
+                  RAMAN
+                  <i class="text-secondary">
+                    owes you <b style="color: rgb(11, 138, 49)">₹12.61</b></i
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="bg-light" style="color: black">
+                  <b>DINESH</b>
+                  <i class="text-secondary">
+                    you owe <b style="color: rgb(185, 17, 17)">₹52.61</b></i
+                  >
+                </td>
+                <td class="bg-light" style="color: black">
+                  RAMAN
+                  <i class="text-secondary">
+                    owes you <b style="color: rgb(11, 138, 49)">₹12.61</b></i
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="bg-light" style="color: black">
+                  <b>DINESH</b>
+                  <i class="text-secondary">
+                    you owe <b style="color: rgb(185, 17, 17)">₹52.61</b></i
+                  >
+                </td>
+                <td class="bg-light" style="color: black">
+                  RAMAN
+                  <i class="text-secondary">
+                    owes you <b style="color: rgb(11, 138, 49)">₹12.61</b></i
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="tableFixHead">
+          <table
+            class="table table-hover"
+            style="box-shadow: 6px 6px 5px rgba(7, 6, 6, 0.1)"
+          >
+            <thead>
+              <tr>
+                <th style="color: black">Activities</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="bg-light" style="color: black">
+                  <span
+                    class="badge badge-secondary"
+                    style="background-color: grey"
+                    >14 Dec</span
+                  >
+                  you
+                  <i class="text-secondary">
+                    paid <b style="color: rgb(11, 138, 49)">₹23</b></i
+                  >
+                  outside with aditya and sood for
+                  <i class="text-secondary"
+                    >petrol bill for car ride to pakistan</i
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="bg-light" style="color: black">
+                  <span
+                    class="badge badge-secondary"
+                    style="background-color: grey"
+                    >14 Dec</span
+                  >
+                  aditya
+                  <i class="text-secondary">
+                    paid <b style="color: rgb(185, 17, 17)">₹12</b></i
+                  >
+                  to you for
+                  <i class="text-secondary">your wish</i>
+                </td>
+              </tr>
+              <tr>
+                <td class="bg-light" style="color: black">
+                  <span
+                    class="badge badge-secondary"
+                    style="background-color: grey"
+                    >13 Dec</span
+                  >
+                  you
+                  <i class="text-secondary">
+                    paid <b style="color: rgb(11, 138, 49)">₹78</b></i
+                  >
+                  to sood for
+                  <i class="text-secondary">dairy milk silk</i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
