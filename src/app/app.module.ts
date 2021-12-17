@@ -21,6 +21,7 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GroupComponent } from './home/group/group.component';
 import { PagenotfoundComponent } from './shared/pagenotfound/pagenotfound.component';
+import { SchemaComponent } from './shared/schema/schema.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { PagenotfoundComponent } from './shared/pagenotfound/pagenotfound.compon
     ProfileComponent,
     GroupComponent,
     PagenotfoundComponent,
+    SchemaComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +58,10 @@ import { PagenotfoundComponent } from './shared/pagenotfound/pagenotfound.compon
         canActivate: [AuthGuard],
       },
       {
+        path: 'schema',
+        component: SchemaComponent
+      },
+      {
         path: '',
         redirectTo: '/login',
         pathMatch: 'full',
@@ -72,6 +78,7 @@ import { PagenotfoundComponent } from './shared/pagenotfound/pagenotfound.compon
             path: 'group',
             component: GroupListComponent
           },
+
           {
             path: 'group/:id', //:id is dynamic here
             component: GroupComponent,
