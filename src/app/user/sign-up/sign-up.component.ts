@@ -14,16 +14,22 @@ export class SignUpComponent implements OnInit {
   showSucessMessage: boolean | undefined;
   serverErrorMessages: string | undefined;
 
-  constructor(public userService: UserService) {}
+  constructor(public userService: UserService) { }
+  showSpinner = false;
+  disabled = false;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit(form: NgForm) {
+    this.showSpinner = true;
+    this.disabled = true;
     this.userService.postUser(form.value).subscribe({
       next: (res) => {
         this.showSucessMessage = true;
         setTimeout(() => (this.showSucessMessage = false), 4000);
         this.resetForm(form);
+        this.showSpinner = false;
+        this.disabled = false;
       },
       error: (err) => {
         if (err.status === 422) {
@@ -31,6 +37,10 @@ export class SignUpComponent implements OnInit {
         } else
           this.serverErrorMessages =
             'Something went wrong.Please contact admin.';
+        this.showSpinner = false;
+        this.disabled = false;
+
+
       },
     });
   }

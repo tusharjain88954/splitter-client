@@ -16,6 +16,8 @@ export class UserProfileComponent implements OnInit {
   showSpinner = false;
   serverErrorMessages: string | undefined;
   showSucessMessage: string | undefined;
+  disabled = false;
+
   constructor(public userService: UserService, private groupService: GroupService, private router: Router) { }
 
   ngOnInit() {
@@ -29,16 +31,19 @@ export class UserProfileComponent implements OnInit {
   }
   onSubmit(form: NgForm) {
     this.showSpinner = true;
+    this.disabled = true;
     this.userService.editUserProfile(form.value).subscribe({
       next: (res: any) => {
         this.getUser();
         this.showSucessMessage = res['message'];
         this.resetForm(form);
         this.showSpinner = false;
+        this.disabled = false;
       },
       error: (err) => {
         this.serverErrorMessages = err.error['error'];
         this.showSpinner = false;
+        this.disabled = false;
       },
     });
   }

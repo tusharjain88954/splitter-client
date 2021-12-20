@@ -1,3 +1,8 @@
+<div class="d-flex justify-content-center" *ngIf="showSpinner">
+  <div class="spinner-border" role="status">
+    <span class="sr-only" id="loading"></span>
+  </div>
+</div>
 <div>
   <img
     src="../../../assets/img/faa43fcf41844550b7a34ce866dcd8d9.png"
@@ -62,7 +67,7 @@
       >Enter atleast 4 characters.</label
     >
   </div>
-  <input type="submit" value="Sign Up" />
+  <input [disabled]="disabled" type="submit" value="Sign Up" />
 </form>
 
 <!-- Success message -->
