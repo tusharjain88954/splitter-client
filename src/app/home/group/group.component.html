@@ -21,8 +21,10 @@
               <p class="text-secondary mb-1">
                 {{ groupDetails.total_persons }} members
               </p>
-              <p><fa-icon [icon]="faUser"></fa-icon> Aditya</p>
-              <p><fa-icon [icon]="faUser"></fa-icon> Tushar</p>
+              <p><fa-icon [icon]="faUser"></fa-icon>You</p>
+              <div class="list-group" *ngFor="let user of allUserDetails">
+                <p><fa-icon [icon]="faUser"></fa-icon>{{ user.fullName }}</p>
+              </div>
               <input type="button" class="disabled" value="Delete Group" />
             </div>
           </div>
@@ -32,9 +34,151 @@
     <div class="col-sm-12 col-lg-8">
       <div class="row my-2">
         <div class="col col-lg-6">
-          <button type="button" class="btn btn-success btn-lg">
+          <button
+            type="button"
+            class="btn btn-success btn-lg"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
             <fa-icon [icon]="faPlusSquare"></fa-icon> Add Expanse
           </button>
+          <!--Add expanse model code start -->
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div
+              class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+            >
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    Add an expense
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <form
+                  #createGroupForm="ngForm"
+                  (ngSubmit)="
+                    createGroupForm.valid && onSubmitCreateForm(createGroupForm)
+                  "
+                >
+                  <div class="modal-body">
+                    <!-- created a variable "fullName" and assigned its value ngmodel. name attribute of input tag = fullName. Here ngclass is used to create dynamic class on html for using it in CSS-->
+
+                    <div *ngIf="showUserList">
+                      <label>With you and: </label>
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Add peoples'"
+                        [settings]="userDropdownSettings"
+                        [data]="userDropdownList"
+                        [(ngModel)]="selectedUser"
+                        [ngModelOptions]="{ standalone: true }"
+                        (onSelect)="onUserSelect($event)"
+                        (onSelectAll)="onUserSelectAll($event)"
+                        (onDeSelect)="onUserDeSelect($event)"
+                        (onDeSelectAll)="onUserDeSelectAll($event)"
+                      >
+                      </ng-multiselect-dropdown>
+                    </div>
+                    <input
+                      type="text"
+                      #description="ngModel"
+                      [(ngModel)]="transactionService.selectedUsers.description"
+                      name="description"
+                      placeholder="Add description"
+                      required
+                      [ngClass]="{
+                        'invalid-textbox':
+                          createGroupForm.submitted && !description.valid
+                      }"
+                    />
+                    <!-- here we create invalid-textbox dynamic class on input tag  which is created only when "createGroupForm.submitted && !fullName.valid" becomes true  -->
+                    <div
+                      *ngIf="createGroupForm.submitted && !description.valid"
+                    >
+                      <label class="validation-message"
+                        >This field is required.</label
+                      >
+                    </div>
+                    <input
+                      type="number"
+                      #amount="ngModel"
+                      [(ngModel)]="transactionService.selectedUsers.amount"
+                      name="amount"
+                      placeholder="add amount"
+                      required
+                      [ngClass]="{
+                        'invalid-textbox':
+                          createGroupForm.submitted && !amount.valid
+                      }"
+                    />
+                    <!-- here we create invalid-textbox dynamic class on input tag  which is created only when "createGroupForm.submitted && !fullName.valid" becomes true  -->
+                    <div *ngIf="createGroupForm.submitted && !amount.valid">
+                      <label class="validation-message"
+                        >This field is required.</label
+                      >
+                    </div>
+                    <div class="my-2" *ngIf="showAddPayee">
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="onClickShowAddPayee()"
+                      >
+                        Lock friendsList and Show PayeeList
+                      </button>
+                    </div>
+                    <div class="my-2" *ngIf="hideAddPayee">
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="onClickHideAddPayee()"
+                      >
+                        Unlock friendsList and Hide PayeeList
+                      </button>
+                    </div>
+                    <div class="my-2" *ngIf="showPayeeList">
+                      <label>Paid by You and:</label>
+
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Add Payee'"
+                        [settings]="payeeDropdownSettings"
+                        [data]="payeeDropdownList"
+                        [(ngModel)]="selectedPayee"
+                        [ngModelOptions]="{ standalone: true }"
+                        (onSelect)="onPayeeSelect($event)"
+                        (onSelectAll)="onPayeeSelectAll($event)"
+                        (onDeSelect)="onPayeeDeSelect($event)"
+                        (onDeSelectAll)="onPayeeDeSelectAll($event)"
+                      >
+                      </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit" value="Save" />
+                  </div>
+                </form>
+                <!-- Success message -->
+                <div class="success" *ngIf="showSucessMessage">
+                  {{ showSucessMessage }}
+                </div>
+
+                <!-- Error message -->
+                <div class="alert" *ngIf="serverErrorMessages">
+                  {{ serverErrorMessages }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Add expanse model code ends -->
         </div>
         <div class="col col-lg-6">
           <button type="button" class="btn btn-primary btn-lg">
@@ -88,8 +232,22 @@
           >
             <thead>
               <tr>
-                <th style="color: black">You owe</th>
-                <th style="color: black">You are owned</th>
+                <th style="color: black">
+                  You owe
+                  <img
+                    src="../../../assets/img/decreasing.png"
+                    width="16"
+                    height="16"
+                  />
+                </th>
+                <th style="color: black">
+                  You are owned
+                  <img
+                    src="../../../assets/img/increase.png"
+                    width="16"
+                    height="16"
+                  />
+                </th>
               </tr>
             </thead>
             <tbody>

@@ -14,6 +14,8 @@ export class UserGroupService {
   creatUserGroup(name: any) {
     return this.http.post(environment.BaseUrl + '/user_group', name);
   }
-
+  getAllUsers(groupId: any) {
+    return this.http.get(environment.BaseUrl + `/user_group/${groupId}`);
+  }
 
 }
