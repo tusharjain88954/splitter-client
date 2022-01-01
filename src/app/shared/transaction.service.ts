@@ -11,10 +11,12 @@ export class TransactionService {
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
 
   selectedUsers = {
-    userDetails: new Array(),
+    userIds: new Array(),
     description: '',
     amount: 0,
-    payeeDetails: new Array()
+    payeeIds: new Array(),
+    splitEqually: true,
+    payeeDetails: [{ "_id": "defaultId", "fullName": "you", "amount": 0 }]
   };
 
 

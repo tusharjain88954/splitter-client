@@ -40,7 +40,7 @@
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
           >
-            <fa-icon [icon]="faPlusSquare"></fa-icon> Add Expanse
+            <fa-icon [icon]="faPlusSquare"></fa-icon> Add Expense
           </button>
           <!--Add expanse model code start -->
           <div
@@ -109,23 +109,26 @@
                         >This field is required.</label
                       >
                     </div>
-                    <input
-                      type="number"
-                      #amount="ngModel"
-                      [(ngModel)]="transactionService.selectedUsers.amount"
-                      name="amount"
-                      placeholder="add amount"
-                      required
-                      [ngClass]="{
-                        'invalid-textbox':
-                          createGroupForm.submitted && !amount.valid
-                      }"
-                    />
-                    <!-- here we create invalid-textbox dynamic class on input tag  which is created only when "createGroupForm.submitted && !fullName.valid" becomes true  -->
-                    <div *ngIf="createGroupForm.submitted && !amount.valid">
-                      <label class="validation-message"
-                        >This field is required.</label
-                      >
+                    <div>
+                      <label>Total Amount: ₹</label>
+                      <input
+                        type="number"
+                        #amount="ngModel"
+                        [(ngModel)]="transactionService.selectedUsers.amount"
+                        name="amount"
+                        placeholder="add amount"
+                        required
+                        [ngClass]="{
+                          'invalid-textbox':
+                            createGroupForm.submitted && !amount.valid
+                        }"
+                      />
+                      <!-- here we create invalid-textbox dynamic class on input tag  which is created only when "createGroupForm.submitted && !fullName.valid" becomes true  -->
+                      <div *ngIf="createGroupForm.submitted && !amount.valid">
+                        <label class="validation-message"
+                          >This field is required.</label
+                        >
+                      </div>
                     </div>
                     <div class="my-2" *ngIf="showAddPayee">
                       <button
@@ -133,7 +136,7 @@
                         class="btn btn-primary"
                         (click)="onClickShowAddPayee()"
                       >
-                        Lock friendsList and Show PayeeList
+                        Add Mutliple Payee
                       </button>
                     </div>
                     <div class="my-2" *ngIf="hideAddPayee">
@@ -142,24 +145,86 @@
                         class="btn btn-primary"
                         (click)="onClickHideAddPayee()"
                       >
-                        Unlock friendsList and Hide PayeeList
+                        Show Friend list
                       </button>
                     </div>
-                    <div class="my-2" *ngIf="showPayeeList">
-                      <label>Paid by You and:</label>
+                    <div class="my-2" *ngIf="showPayee">
+                      <div *ngIf="showPayeeList">
+                        <label>Paid by You and:</label>
 
-                      <ng-multiselect-dropdown
-                        [placeholder]="'Add Payee'"
-                        [settings]="payeeDropdownSettings"
-                        [data]="payeeDropdownList"
-                        [(ngModel)]="selectedPayee"
-                        [ngModelOptions]="{ standalone: true }"
-                        (onSelect)="onPayeeSelect($event)"
-                        (onSelectAll)="onPayeeSelectAll($event)"
-                        (onDeSelect)="onPayeeDeSelect($event)"
-                        (onDeSelectAll)="onPayeeDeSelectAll($event)"
+                        <ng-multiselect-dropdown
+                          [placeholder]="'Add Payee'"
+                          [settings]="payeeDropdownSettings"
+                          [data]="payeeDropdownList"
+                          [(ngModel)]="selectedPayee"
+                          [ngModelOptions]="{ standalone: true }"
+                          (onSelect)="onPayeeSelect($event)"
+                          (onSelectAll)="onPayeeSelectAll($event)"
+                          (onDeSelect)="onPayeeDeSelect($event)"
+                          (onDeSelectAll)="onPayeeDeSelectAll($event)"
+                        >
+                        </ng-multiselect-dropdown>
+                      </div>
+                      <div class="my-1">
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="inlineRadioOptions"
+                            id="inlineRadio1"
+                            value="option1"
+                            (click)="onClickSplitEqually()"
+                          />
+                          <label class="form-check-label" for="inlineRadio1"
+                            >Split equally
+                          </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="inlineRadioOptions"
+                            id="inlineRadio2"
+                            value="option2"
+                            (click)="onClickSplitUnequally()"
+                          />
+                          <label class="form-check-label" for="inlineRadio2"
+                            >split unequally</label
+                          >
+                        </div>
+                      </div>
+                      <div *ngIf="addMultiplePayeeAmount">
+                        <div
+                          *ngFor="
+                            let payee of transactionService.selectedUsers
+                              .payeeDetails
+                          "
+                        >
+                          <label
+                            ><b>{{ payee.fullName }}</b> paid: ₹
+                          </label>
+                          <input
+                            type="number"
+                            #payeeamount="ngModel"
+                            [(ngModel)]="payee.amount"
+                            name="payeeamount"
+                            placeholder="add amount"
+                            required
+                            [ngClass]="{
+                              'invalid-textbox':
+                                createGroupForm.submitted && !payeeamount.valid
+                            }"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="my-2">
+                      <span
+                        class="badge badge-secondary"
+                        style="background-color: #ed5565"
+                        >{{ date }}</span
                       >
-                      </ng-multiselect-dropdown>
                     </div>
                   </div>
                   <div class="modal-footer">

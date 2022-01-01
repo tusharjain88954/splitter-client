@@ -32,10 +32,13 @@ export class GroupComponent implements OnInit {
   showUserList = true;
   showAddPayee = true;
   hideAddPayee = false;
-  showPayeeList = false;
+  showPayee = false;
+  showPayeeList = true;
   tempPayeeList = [{ "_id": "defaultId", "fullName": "you" }];
   userNames = new Array();
   payeeNames = new Array();
+  date: any | undefined;
+  addMultiplePayeeAmount = false;
   ngOnInit(): void {
     this.showSpinner = true;
     const groupId = this.route.snapshot.paramMap.get('id')
@@ -49,6 +52,13 @@ export class GroupComponent implements OnInit {
           this.groupDetails = res;
           this.userGroupService.getAllUsers(groupId).subscribe({
             next: (res: any) => {
+              this.date = new Date();
+              this.date = this.date.toLocaleString('en-US', {
+                weekday: 'short', // long, short, narrow
+                day: 'numeric', // numeric, 2-digit
+                year: 'numeric', // numeric, 2-digit
+                month: 'long', // numeric, 2-digit, long, short, narrow
+              })
               this.allUserDetails = res;
               this.userDropdownList = this.allUserDetails;
               this.userDropdownSettings = {
@@ -102,32 +112,32 @@ export class GroupComponent implements OnInit {
 
   }
   onUserSelect(item: any) {
-    this.transactionService.selectedUsers.userDetails.push(item._id);
+    this.transactionService.selectedUsers.userIds.push(item._id);
     this.userNames.push(item.fullName);
-    console.log(this.transactionService.selectedUsers.userDetails)
+    console.log(this.transactionService.selectedUsers.userIds)
   }
   onUserSelectAll(items: any) {
-    this.transactionService.selectedUsers.userDetails = [];
+    this.transactionService.selectedUsers.userIds = [];
     console.log(items)
     for (let i = 0; i < items.length; i++) {
-      this.transactionService.selectedUsers.userDetails.push(items[i]._id);
+      this.transactionService.selectedUsers.userIds.push(items[i]._id);
       this.userNames.push(items[i].fullName);
     }
-    console.log(this.transactionService.selectedUsers.userDetails)
+    console.log(this.transactionService.selectedUsers.userIds)
   }
   onUserDeSelect(item: any) {
-    for (let i = 0; i < this.transactionService.selectedUsers.userDetails.length; i++) {
-      if (this.transactionService.selectedUsers.userDetails[i] == item._id) {
-        this.transactionService.selectedUsers.userDetails.splice(i, 1);
+    for (let i = 0; i < this.transactionService.selectedUsers.userIds.length; i++) {
+      if (this.transactionService.selectedUsers.userIds[i] == item._id) {
+        this.transactionService.selectedUsers.userIds.splice(i, 1);
         this.userNames.splice(i, 1);
       }
     }
-    console.log(this.transactionService.selectedUsers.userDetails)
+    console.log(this.transactionService.selectedUsers.userIds)
   }
   onUserDeSelectAll(item: any) {
-    this.transactionService.selectedUsers.userDetails = [];
+    this.transactionService.selectedUsers.userIds = [];
     this.userNames = [];
-    console.log(this.transactionService.selectedUsers.userDetails)
+    console.log(this.transactionService.selectedUsers.userIds)
   }
 
   onClickShowAddPayee() {
@@ -135,55 +145,80 @@ export class GroupComponent implements OnInit {
     this.selectedPayee = [];
     while (this.tempPayeeList.length)
       this.tempPayeeList.pop();
-    for (let i = 0; i < this.transactionService.selectedUsers.userDetails.length; i++) {
+    for (let i = 0; i < this.transactionService.selectedUsers.userIds.length; i++) {
       // : { _id: string, fullName: string } => this is to define the type of payeeObj
-      var payeeObj: { _id: string, fullName: string } = { "_id": this.transactionService.selectedUsers.userDetails[i], "fullName": this.userNames[i] }
+      var payeeObj: { _id: string, fullName: string } = { "_id": this.transactionService.selectedUsers.userIds[i], "fullName": this.userNames[i] }
       this.tempPayeeList.push(payeeObj);
     }
     this.payeeDropdownList = this.tempPayeeList;
     this.showAddPayee = false;
     this.showUserList = false;
     this.hideAddPayee = true;
-    this.showPayeeList = true;
+    this.showPayee = true;
+    // this.showPayeeList = true;
+    console.log(this.transactionService.selectedUsers.payeeDetails)
   }
   onClickHideAddPayee() {
+    this.transactionService.selectedUsers.payeeDetails = [{ "_id": "defaultId", "fullName": "you", "amount": 0 }];
     this.showAddPayee = true;
     this.showUserList = true;
     this.hideAddPayee = false;
-    this.showPayeeList = false;
+    this.showPayee = false;
+    this.showPayeeList = true;
+    this.addMultiplePayeeAmount = false;
     this.selectedUser = this.payeeDropdownList;
+    this.transactionService.selectedUsers.payeeIds = []
+    console.log(this.transactionService.selectedUsers.payeeDetails)
   }
 
   onPayeeSelect(item: any) {
-    this.transactionService.selectedUsers.payeeDetails.push(item._id);
+    this.transactionService.selectedUsers.payeeIds.push(item._id);
     this.payeeNames.push(item.fullName);
-    console.log(this.transactionService.selectedUsers.payeeDetails)
+    console.log(this.transactionService.selectedUsers.payeeIds)
   }
   onPayeeSelectAll(items: any) {
-    this.transactionService.selectedUsers.payeeDetails = [];
+    this.transactionService.selectedUsers.payeeIds = [];
     console.log(items)
     for (let i = 0; i < items.length; i++) {
-      this.transactionService.selectedUsers.payeeDetails.push(items[i]._id);
+      this.transactionService.selectedUsers.payeeIds.push(items[i]._id);
       this.payeeNames.push(items[i].fullName);
     }
-    console.log(this.transactionService.selectedUsers.payeeDetails)
+    console.log(this.transactionService.selectedUsers.payeeIds)
   }
   onPayeeDeSelect(item: any) {
-    for (let i = 0; i < this.transactionService.selectedUsers.payeeDetails.length; i++) {
-      if (this.transactionService.selectedUsers.payeeDetails[i] == item._id) {
-        this.transactionService.selectedUsers.payeeDetails.splice(i, 1);
+    for (let i = 0; i < this.transactionService.selectedUsers.payeeIds.length; i++) {
+      if (this.transactionService.selectedUsers.payeeIds[i] == item._id) {
+        this.transactionService.selectedUsers.payeeIds.splice(i, 1);
         this.payeeNames.splice(i, 1);
       }
     }
-    console.log(this.transactionService.selectedUsers.payeeDetails)
+    console.log(this.transactionService.selectedUsers.payeeIds)
   }
   onPayeeDeSelectAll(item: any) {
-    this.transactionService.selectedUsers.payeeDetails = [];
-    this.userNames = [];
+    this.transactionService.selectedUsers.payeeIds = [];
+    this.payeeNames = [];
+    console.log(this.transactionService.selectedUsers.payeeIds)
+  }
+  onClickSplitEqually() {
+    this.transactionService.selectedUsers.payeeDetails = [{ "_id": "defaultId", "fullName": "you", "amount": 0 }];
+    this.showPayeeList = true;
+    this.addMultiplePayeeAmount = false;
     console.log(this.transactionService.selectedUsers.payeeDetails)
   }
 
-
+  onClickSplitUnequally() {
+    this.transactionService.selectedUsers.splitEqually = false;
+    // this.payeeDetails.pop(); // pop the default value
+    let perPayeeAmount = (this.transactionService.selectedUsers.amount / (this.transactionService.selectedUsers.payeeIds.length + 1));
+    this.transactionService.selectedUsers.payeeDetails[0].amount = perPayeeAmount;
+    for (let i = 0; i < this.transactionService.selectedUsers.payeeIds.length; i++) {
+      var payeeObj: { _id: string, fullName: string, amount: number } = { "_id": this.transactionService.selectedUsers.payeeIds[i], "fullName": this.payeeNames[i], "amount": perPayeeAmount };
+      this.transactionService.selectedUsers.payeeDetails.push(payeeObj);
+    }
+    this.addMultiplePayeeAmount = true;
+    this.showPayeeList = false;
+    console.log(this.transactionService.selectedUsers.payeeDetails)
+  }
 
 
 }
