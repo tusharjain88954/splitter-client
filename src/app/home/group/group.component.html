@@ -66,9 +66,10 @@
                   ></button>
                 </div>
                 <form
-                  #createGroupForm="ngForm"
+                  #createTransactionForm="ngForm"
                   (ngSubmit)="
-                    createGroupForm.valid && onSubmitCreateForm(createGroupForm)
+                    createTransactionForm.valid &&
+                      onSubmitCreateForm(createTransactionForm)
                   "
                 >
                   <div class="modal-body">
@@ -98,18 +99,20 @@
                       required
                       [ngClass]="{
                         'invalid-textbox':
-                          createGroupForm.submitted && !description.valid
+                          createTransactionForm.submitted && !description.valid
                       }"
                     />
-                    <!-- here we create invalid-textbox dynamic class on input tag  which is created only when "createGroupForm.submitted && !fullName.valid" becomes true  -->
+                    <!-- here we create invalid-textbox dynamic class on input tag  which is created only when "createTransactionForm.submitted && !fullName.valid" becomes true  -->
                     <div
-                      *ngIf="createGroupForm.submitted && !description.valid"
+                      *ngIf="
+                        createTransactionForm.submitted && !description.valid
+                      "
                     >
                       <label class="validation-message"
                         >This field is required.</label
                       >
                     </div>
-                    <div>
+                    <div *ngIf="showUserList">
                       <label>Total Amount: ₹</label>
                       <input
                         type="number"
@@ -120,15 +123,16 @@
                         required
                         [ngClass]="{
                           'invalid-textbox':
-                            createGroupForm.submitted && !amount.valid
+                            createTransactionForm.submitted && !amount.valid
                         }"
                       />
-                      <!-- here we create invalid-textbox dynamic class on input tag  which is created only when "createGroupForm.submitted && !fullName.valid" becomes true  -->
-                      <div *ngIf="createGroupForm.submitted && !amount.valid">
-                        <label class="validation-message"
-                          >This field is required.</label
-                        >
-                      </div>
+                    </div>
+                    <div *ngIf="!showUserList">
+                      <label
+                        >Total Amount: ₹{{
+                          transactionService.selectedUsers.amount
+                        }}</label
+                      >
                     </div>
                     <div class="my-2" *ngIf="showAddPayee">
                       <button
@@ -173,6 +177,7 @@
                             name="inlineRadioOptions"
                             id="inlineRadio1"
                             value="option1"
+                            checked
                             (click)="onClickSplitEqually()"
                           />
                           <label class="form-check-label" for="inlineRadio1"
@@ -212,7 +217,8 @@
                             required
                             [ngClass]="{
                               'invalid-textbox':
-                                createGroupForm.submitted && !payeeamount.valid
+                                createTransactionForm.submitted &&
+                                !payeeamount.valid
                             }"
                           />
                         </div>
@@ -232,14 +238,14 @@
                   </div>
                 </form>
                 <!-- Success message -->
-                <div class="success" *ngIf="showSucessMessage">
+                <p class="success" *ngIf="showSucessMessage">
                   {{ showSucessMessage }}
-                </div>
+                </p>
 
                 <!-- Error message -->
-                <div class="alert" *ngIf="serverErrorMessages">
+                <p class="alert" *ngIf="serverErrorMessages">
                   {{ serverErrorMessages }}
-                </div>
+                </p>
               </div>
             </div>
           </div>

@@ -30,7 +30,7 @@ export class GroupListComponent implements OnInit {
       next: (res: any) => {
         console.log(res);
         this.getGroupList();
-        this.showSucessMessage1 = res['message'];
+        this.showSucessMessage1 = "Successfully created";
         this.resetFormCreate(form);
         this.showSpinner = false;
       },
@@ -47,7 +47,7 @@ export class GroupListComponent implements OnInit {
       next: (res: any) => {
         console.log(res);
         this.getGroupList();
-        this.showSucessMessage2 = res['message'];
+        this.showSucessMessage2 = "Successfully added";
         this.resetFormSearch(form);
         this.showSpinner = false;
       },

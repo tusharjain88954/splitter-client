@@ -50,3 +50,6 @@ td {
 th {
   background: #eee;
 }
+.modal-dialog {
+  height: 100% !important;
+}

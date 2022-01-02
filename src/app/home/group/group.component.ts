@@ -50,9 +50,11 @@ export class GroupComponent implements OnInit {
       this.groupService.getGroup(groupId).subscribe({
         next: (res: any) => {
           this.groupDetails = res;
+          console.log(res)
           this.userGroupService.getAllUsers(groupId).subscribe({
             next: (res: any) => {
               this.date = new Date();
+              this.transactionService.selectedUsers.groupId = String(groupId);
               this.date = this.date.toLocaleString('en-US', {
                 weekday: 'short', // long, short, narrow
                 day: 'numeric', // numeric, 2-digit
@@ -96,12 +98,22 @@ export class GroupComponent implements OnInit {
   }
   onSubmitCreateForm(form: NgForm) {
     this.showSpinner = true;
-    this.groupService.createGroup(form.value).subscribe({
+    console.log(this.transactionService.selectedUsers);
+    this.showSucessMessage = '';
+    this.serverErrorMessages = '';
+    if (this.transactionService.selectedUsers.splitEqually) {
+      let perPayeeAmount = (this.transactionService.selectedUsers.amount / (this.transactionService.selectedUsers.payeeIds.length + 1));
+      this.transactionService.selectedUsers.payeeDetails[0].amount = perPayeeAmount;
+      for (let i = 0; i < this.transactionService.selectedUsers.payeeIds.length; i++) {
+        var payeeObj: { _id: string, fullName: string, amount: number } = { "_id": this.transactionService.selectedUsers.payeeIds[i], "fullName": this.payeeNames[i], "amount": perPayeeAmount };
+        this.transactionService.selectedUsers.payeeDetails.push(payeeObj);
+      }
+    }
+    this.transactionService.addTransaction(this.transactionService.selectedUsers).subscribe({
       next: (res: any) => {
         console.log(res);
-        // this.getGroupList();
         this.showSucessMessage = res['message'];
-        // this.resetFormCreate(form);
+        this.resetFormCreate(form);
         this.showSpinner = false;
       },
       error: (err) => {
@@ -109,7 +121,31 @@ export class GroupComponent implements OnInit {
         this.showSpinner = false;
       },
     });
+    // }
 
+  }
+  // reset the form when after submit is clicked
+  resetFormCreate(form: NgForm) {
+    this.transactionService.selectedUsers.userIds = [];
+    this.transactionService.selectedUsers.description = '';
+    this.transactionService.selectedUsers.payeeIds = [];
+    this.transactionService.selectedUsers.amount = 0;
+    this.transactionService.selectedUsers.splitEqually = true;
+    this.transactionService.selectedUsers.payeeDetails = [{ "_id": "defaultId", "fullName": "you", "amount": 0 }];
+    this.selectedUser = [];
+    this.selectedPayee = [];
+    this.showUserList = true;
+    this.showAddPayee = true;
+    this.hideAddPayee = false;
+    this.showPayee = false;
+    this.showPayeeList = true;
+    this.tempPayeeList = [{ "_id": "defaultId", "fullName": "you" }];
+    this.userNames = new Array();
+    this.payeeNames = new Array();
+    this.addMultiplePayeeAmount = false;
+    form.resetForm();
+    this.serverErrorMessages = '';
+    // this.showSucessMessage = '';
   }
   onUserSelect(item: any) {
     this.transactionService.selectedUsers.userIds.push(item._id);
@@ -203,7 +239,9 @@ export class GroupComponent implements OnInit {
     this.transactionService.selectedUsers.payeeDetails = [{ "_id": "defaultId", "fullName": "you", "amount": 0 }];
     this.showPayeeList = true;
     this.addMultiplePayeeAmount = false;
+    this.transactionService.selectedUsers.splitEqually = true;
     console.log(this.transactionService.selectedUsers.payeeDetails)
+
   }
 
   onClickSplitUnequally() {
